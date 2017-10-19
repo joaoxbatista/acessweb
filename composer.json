@@ -1,0 +1,19 @@
+{
+    "name": "joao/solidphp",
+    "type": "yes",
+    "require": {
+        "phpunit/phpunit": "^6.4",
+        "symfony/var-dumper": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "João Batista Gomes Silva",
+            "email": "jhonxbatista@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "AcessWeb\\Core\\": "src"
+        }
+    }
+}
