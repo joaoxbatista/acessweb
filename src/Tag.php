@@ -2,56 +2,46 @@
 
 namespace AcessWeb\Core;
 
-class Tag 
+class Tag implements TagContract
 {
-	private $name;
-	private $properties;
-	private $content;
+    protected $name;
+    public $attributes;
+    protected $content;
 
-	public function __construct(string $name, string $content, array $properties = [])
-	{
-		$this->name = $name;
-		$this->content = $content;
+    public function __construct(string $name, string $content, AttributeList $attributes = null)
+    {
+        $this->name = $name;
+        $this->content = $content;
+        if(!$attributes)
+        {
+            $this->attributes = new AttributeList();
+        }
+        else
+        {
+            $this->attributes = $attributes;
+        }
+    }
+    
+    public function __toString()
+    {
+        return $this->html();
+    }
 
-		if(count($properties) > 0)
-		{
-			foreach($properties as $property)
-			{
-				$this->properties[$property[0]] = new Property($property);
-			}
-		}
+    public function html() : string
+    {
+        $html = "<{$this->name}"; 
+        if($this->attributes)
+        {
+            $html .= "{$this->attributes->html()}";
+        }
+        $html .= ">{$this->content}</{$this->name}>";
 
-	}
+        return $html;
+    }
 
-	public function addProperty(string $key, string $value) : void
-	{
-		$this->properties[$key] = new Property($key, $value);
-	}
-
-	public function getHtmlProperties() : string
-	{
-
-		if(count($this->properties) == 0)
-		{
-			return "";
-		}
-
-		$html = "";
-
-		foreach($this->properties as $property)
-		{
-			$html .= " {$property->__toString()}";
-		}
-
-		return $html;
-	}
-
-	public function printHtml() : string
-	{
-		return "<{$this->name}{$this->getHtmlProperties()}>{$this->content}</{$this->name}>";
-	}
-
-	
-
+    public function details()
+    {
+        dump($this);
+    }
 
 }
